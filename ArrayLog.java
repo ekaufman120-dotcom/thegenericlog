@@ -21,18 +21,20 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
         // cannot create a generic array object, so has to be cast
         // from an Object back into the generic in order to compile
         this.log = (T[])new Object[4];
+        this.name = name;
+        this.size = 4;
     }
 
     // Returns the name of this StringLog.
     public String getName()
     {
-        return "";
+        return this.name;
     }
 
     // Returns the logical size of this StringLog.
     public int size()
     {
-        return -1;
+        return this.size;
     }
     
     // Returns true if this list contains no elements.
@@ -50,12 +52,13 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // Appends the specified element to the end of this list.
     public void add(T element)
     {
+        
     }
   
     // Returns the element at the specified position in this list.
     public T get(int index)
     {   
-        return null;
+        return this.log[index];
     }
     
     // Returns the index of the first occurance of the specified element
