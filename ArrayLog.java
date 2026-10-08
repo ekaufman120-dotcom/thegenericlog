@@ -115,7 +115,20 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     public void add(int index, T element)
     {
         this.size++;
-        //TODO
+        if(this.size > this.log.length)
+        {
+            T[] newLog = (T[])new Object[this.log.length * 2];
+            for(int i = 0; i < this.log.length; i++)
+            {
+                newLog[i] = this.log[i];
+            }
+            this.log = newLog;
+        }
+        for(int i = this.size - 1; i > index; i--)
+        {
+            this.log[i] = this.log[i - 1];
+        }
+        this.log[index] = element;
     }
     
     // Removes the element at the specified position in this list, and
@@ -125,7 +138,20 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     {
         this.size--;
         T removed = this.log[index];
-        //TODO
+        if(this.size < this.log.length / 2)
+        {
+            T[] newLog = (T[])new Object[this.log.length / 2];
+            for(int i = 0; i < this.size; i++)
+            {
+                newLog[i] = this.log[i];
+            }
+            this.log = newLog;
+        }
+        for(int i = index; i < this.size-1; i++)
+        {
+            this.log[i] = this.log[i + 1];
+        }
+        this.log[this.size-1] = null;
         return removed;
     }
     
