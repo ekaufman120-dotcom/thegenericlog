@@ -22,7 +22,7 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
         // from an Object back into the generic in order to compile
         this.log = (T[])new Object[4];
         this.name = name;
-        this.size = 4;
+        this.size = 0; //size of log based on number of elements
     }
 
     // Returns the name of this StringLog.
@@ -40,19 +40,29 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // Returns true if this list contains no elements.
     public boolean isEmpty()
     {
-        return false;
+        return this.size == 0;
     }
     
     // Returns true if this list is completely full.
     public boolean isFull()
     {
-        return false;
+        return this.size == this.log.length;
     }
 
     // Appends the specified element to the end of this list.
     public void add(T element)
     {
-        
+        this.size++;
+        if(this.size > this.log.length)
+        {
+            T[] newLog = (T[])new Object[this.log.length * 2];
+            for(int i = 0; i < this.log.length; i++)
+            {
+                newLog[i] = this.log[i];
+            }
+            this.log = newLog;
+        }
+        this.log[this.size - 1] = element;
     }
   
     // Returns the element at the specified position in this list.
@@ -65,13 +75,20 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // in this list, or -1 if this list does not contain the element.
     public int indexOf(T element)
     {
+        for(int i = 0; i < this.size; i++)
+        {
+            if(this.log[i].equals(element))
+            {
+                return i;
+            }
+        }
         return -1;
     }
     
     // Returns true if this list contains the specified element.
     public boolean contains(T element)
     {
-        return false;
+        return indexOf(element) != -1;
     }
     
     // Returns a formatted string representation of this StringLog.
@@ -89,12 +106,16 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // with the specified element.  Returns what was at that location
     public T set(int index, T element)
     {
-        return null;
+        T old = this.log[index];
+        this.log[index] = element;
+        return old;
     }
     
     // Inserts the specified element at the specified position in this list.
     public void add(int index, T element)
     {
+        this.size++;
+        //TODO
     }
     
     // Removes the element at the specified position in this list, and
@@ -102,7 +123,10 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // are set to null.
     public T remove(int index)
     {
-        return null;
+        this.size--;
+        T removed = this.log[index];
+        //TODO
+        return removed;
     }
     
     // Removes the first occurance of the specified element from this
@@ -110,11 +134,20 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // removed), false otherwise.
     public boolean remove(T element)
     {
+        this.size--;
+        int index = indexOf(element);
+        if(index != -1)
+        {
+            remove(index);
+            return true;
+        }
         return false;
     }
     
     // Removes all of the elements from this list.
     public void clear()
     {
+        this.log = (T[])new Object[4];
+        this.size = 0;
     }
 }
