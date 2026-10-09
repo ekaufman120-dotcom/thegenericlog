@@ -161,7 +161,8 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
         {
             this.log[i] = this.log[i + 1];
         }
-        this.log[--this.size] = null;
+        this.log[this.size] = null;
+        this.size--;
         if(this.size < this.log.length / 2&&this.log.length > 4)
         {
             T[] newLog = (T[])new Object[this.log.length / 2];
