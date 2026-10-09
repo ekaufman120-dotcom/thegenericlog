@@ -68,9 +68,13 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // Returns the element at the specified position in this list.
     public T get(int index)
     {   
-        if(index > this.size - 1 || index < 0)
+        if(index < 0)
         {
             throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        if(index >= this.size)
+        {
+            return null;
         }
         return this.log[index];
     }
@@ -148,9 +152,17 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // are set to null.
     public T remove(int index)
     {
-        this.size--;
+        if(index > this.size - 1 || index < 0)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
         T removed = this.log[index];
-        if(this.size < this.log.length / 2)
+        for(int i = index; i < this.size - 1; i++)
+        {
+            this.log[i] = this.log[i + 1];
+        }
+        this.log[--this.size] = null;
+        if(this.size < this.log.length / 2&&this.log.length > 4)
         {
             T[] newLog = (T[])new Object[this.log.length / 2];
             for(int i = 0; i < this.size; i++)
@@ -159,11 +171,6 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
             }
             this.log = newLog;
         }
-        for(int i = index; i < this.size-1; i++)
-        {
-            this.log[i] = this.log[i + 1];
-        }
-        this.log[this.size-1] = null;
         return removed;
     }
     
@@ -172,7 +179,6 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     // removed), false otherwise.
     public boolean remove(T element)
     {
-        this.size--;
         int index = indexOf(element);
         if(index != -1)
         {
