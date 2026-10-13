@@ -14,6 +14,9 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
 
     public LinkedLog(String name)
     {
+        this.log = null;
+        this.name = name;
+        this.size = 0;
     }
     
     // returns the name of this StringLog
@@ -43,25 +46,46 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     // appends the specified element to the end of this list
     public void add(T element)
     {
+        add(this.size, element);
     }
   
     // returns the element at the specified position in this list
     public T get(int index)
     {
-        return null;
+        if(index < 0 || index >= this.size)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        LLNode<T> curNode = log;
+        for(int i = 0; i < index; i++)
+        {
+            curNode = curNode.getLink();
+        }
+        return curNode.getInfo();
     }
     
     // returns the index of the first occurance of the specified element
     // in this list, or -1 if this list does not contain the element
     public int indexOf(T element)
     {
+        LLNode<T> curNode = log;
+        int index = 0;
+        while(curNode != null)
+        {
+            if(curNode.getInfo().equals(element))
+            {
+                return index;
+            }
+            curNode = curNode.getLink();
+            index++;
+        }
         return -1;
     }
     
     // returns true if this list contains the specified element
     public boolean contains(T element)
     {
-        return false;
+        return indexOf(element) != -1;
     }
     
     // returns a formatted string representation of this StringLog
@@ -84,29 +108,92 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     // with the specified element
     public T set(int index, T element)
     {
-        return null;
+        if(index < 0 || index >= this.size)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        LLNode<T> curNode = log;
+        for(int i = 0; i < index; i++)
+        {
+            curNode = curNode.getLink();
+        }
+        T oldInfo = curNode.getInfo();
+        curNode.setInfo(element);
+        return oldInfo;
     }
     
     // inserts the specified element at the specified position in this list
     public void add(int index, T element)
     {
+        if(index < 0 || index > this.size)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        LLNode<T> curNode = log;
+        this.size++;
+        if(index == 0)
+        {
+            LLNode<T> newNode = new LLNode<T>(element);
+            newNode.setLink(log);
+            log = newNode;
+        }
+        else{
+            for(int i = 0; i < index-1; i++)
+            {
+                curNode = curNode.getLink();
+            }
+            LLNode<T> newNode = new LLNode<T>(element);
+            newNode.setLink(curNode.getLink());
+            curNode.setLink(newNode);
+        }
     }
     
     // removes the element at the specified position in this list
     public T remove(int index)
     {
-        return null;
+        if(index < 0 || index >= this.size)
+        {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+        }
+        else if(index == 0)
+        {
+            T oldInfo = log.getInfo();
+            log = log.getLink();
+            this.size--;
+            return oldInfo;
+        }
+        else
+        {
+            this.size--;
+            LLNode<T> curNode = log;
+            for(int i = 0; i < index-1; i++)
+            {
+                curNode = curNode.getLink();
+            }
+            T oldInfo = curNode.getLink().getInfo();
+            LLNode<T> otherNode = curNode.getLink().getLink();
+            curNode.setLink(otherNode);
+            return oldInfo;
+        }
     }
     
     // removes the first occurance of the specified element from this
     // list, if it is present
     public boolean remove(T element)
     {
+        int index = indexOf(element);
+        if(index != -1)
+        {
+            remove(index);
+            return true;
+        }
         return false;
     }
         
     // removes all of the elements from this list
     public void clear()
     {
+        this.log = null;
+        this.size = 0;
     }
 }
