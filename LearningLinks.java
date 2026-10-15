@@ -1,12 +1,12 @@
 public class LearningLinks {
     public static void main(String[] args) {
         
-        Node<Integer> one = new Node(1);
-        Node<Integer> two = new Node(2);
+        Node<Integer> one = new Node<Integer>(1);
+        Node<Integer> two = new Node<Integer>(2);
         one.setLink(two);
-        Node<Integer> three = new Node(3);
+        Node<Integer> three = new Node<Integer>(3);
         two.setLink(three);
-        Node<Integer> four = new Node(4);
+        Node<Integer> four = new Node<Integer>(4);
         //Node three = new Node(1);
         one.getLink().setLink(three);
 
@@ -32,10 +32,10 @@ public class LearningLinks {
         }
         System.out.println();
 
-        Node<Integer> log = new Node(1);
-        log.setLink(new Node(2));
-        log.getLink().setLink(new Node(3));
-        log.getLink().getLink().setLink(new Node(4));
+        Node<Integer> log = new Node<Integer>(1);
+        log.setLink(new Node<Integer>(2));
+        log.getLink().setLink(new Node<Integer>(3));
+        log.getLink().getLink().setLink(new Node<Integer>(4));
         Node<Integer> curNode = log;
         for(int i = 0; i < 0-1; i++)
         {
