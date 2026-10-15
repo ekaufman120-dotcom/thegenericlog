@@ -70,7 +70,7 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     {   
         if(index < 0)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         if(index >= this.size)
         {
@@ -116,7 +116,7 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     {
         if(index > this.size - 1 || index < 0)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         T old = this.log[index];
         this.log[index] = element;
@@ -128,7 +128,7 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     {
         if(index > this.size || index < 0)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size)+"].");
         }
         this.size++;
         if(this.size > this.log.length)
@@ -154,7 +154,7 @@ public class ArrayLog<T> implements EnhancedLogInterface<T>
     {
         if(index > this.size - 1 || index < 0)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         T removed = this.log[index];
         for(int i = index; i < this.size - 1; i++)
