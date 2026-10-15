@@ -20,41 +20,27 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     }
     
     // returns the name of this StringLog
-    public String getName()
-    {
-        return this.name;
-    }
+    public String getName() { return this.name; }
 
     // returns the logical size of this StringLog
-    public int size()
-    {
-        return this.size;
-    }
+    public int size() { return this.size; }
     
     // returns true if this list contains no elements
-    public boolean isEmpty()
-    {
-        return this.size == 0;
-    }
+    public boolean isEmpty() { return this.size == 0; }
     
     // returns true if this list is completely full
-    public boolean isFull()
-    {
-        return false;
-    }
+    //     so... never?
+    public boolean isFull() { return false; }
 
     // appends the specified element to the end of this list
-    public void add(T element)
-    {
-        add(this.size, element);
-    }
+    public void add(T element) { add(this.size, element); }
   
     // returns the element at the specified position in this list
     public T get(int index)
     {
         if(index < 0 || index >= this.size)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         LLNode<T> curNode = log;
         for(int i = 0; i < index; i++)
@@ -110,7 +96,7 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     {
         if(index < 0 || index >= this.size)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         LLNode<T> curNode = log;
         for(int i = 0; i < index; i++)
@@ -127,7 +113,7 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     {
         if(index < 0 || index > this.size)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size)+"].");
         }
         LLNode<T> curNode = log;
         this.size++;
@@ -138,6 +124,7 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
             log = newNode;
         }
         else{
+            //its index-1 because otherwise the node would be added at the wrong index
             for(int i = 0; i < index-1; i++)
             {
                 curNode = curNode.getLink();
@@ -153,7 +140,7 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     {
         if(index < 0 || index >= this.size)
         {
-            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + this.size);
+            throw new IndexOutOfBoundsException("Index "+index+" is not in indices [0, "+(this.size-1)+"].");
         }
         else if(index == 0)
         {
@@ -179,6 +166,7 @@ public class LinkedLog<T> implements EnhancedLogInterface<T>
     
     // removes the first occurance of the specified element from this
     // list, if it is present
+    // runs the other remove method because its easier that way
     public boolean remove(T element)
     {
         int index = indexOf(element);
